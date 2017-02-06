@@ -2,7 +2,6 @@ FROM alpine
 MAINTAINER Martin Baillie <martin.t.baillie@gmail.com>
 
 ENV CONFD_VERSION               0.12.0-alpha3
-ENV CONFD_INTERVAL              600
 ENV CONFD_LOG_LEVEL             debug
 ENV CONFD_RANCHER_API_PREFIX    latest
 

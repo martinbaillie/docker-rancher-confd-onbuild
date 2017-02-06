@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 set -e
-set -u
 set -o pipefail
 
 wait_for_rancher_metadata() {
@@ -21,9 +20,12 @@ wait_for_rancher_metadata() {
   done
   echo
 }
+
+[ "${CONFD_INTERVAL}" ] && INTERVAL_FLAG=" -interval ${CONFD_INTERVAL}"
+
 wait_for_rancher_metadata
 exec /bin/confd \
-    -interval "${CONFD_INTERVAL}" \
     -backend rancher \
     -prefix "${CONFD_RANCHER_API_PREFIX}" \
-    -log-level "${CONFD_LOG_LEVEL}"
+    -log-level "${CONFD_LOG_LEVEL}" \
+    "${INTERVAL_FLAG}"

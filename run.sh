@@ -21,11 +21,15 @@ wait_for_rancher_metadata() {
   echo
 }
 
-[ "${CONFD_INTERVAL}" ] && INTERVAL_FLAG=" -interval ${CONFD_INTERVAL}"
+if [ "${CONFD_WATCH}" ]; then
+    WATCH_FLAG="-watch"
+elif [ "${CONFD_INTERVAL}" ]; then
+    INTERVAL_FLAG="-interval ${CONFD_INTERVAL}"
+fi
 
 wait_for_rancher_metadata
 exec /bin/confd \
     -backend rancher \
     -prefix "${CONFD_RANCHER_API_PREFIX}" \
     -log-level "${CONFD_LOG_LEVEL}" \
-    "${INTERVAL_FLAG}"
+    "${WATCH_FLAG}""${INTERVAL_FLAG}"
